@@ -2,8 +2,30 @@ from tkinter import *
 import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 
-# 학생 등록 창
-def student_register() :
+
+
+
+
+def insert1():
+    student_ID = e_id.get()
+    student_name = e_name.get()
+    age = e_age.get()
+    textbook = e_textbook.get()
+    class_ID = e_class_ID.get()
+
+    if(student_ID=="" or student_name=="" or age=="") :
+        MessageBox.showinfo("Insert Status", "All fields are required")
+    else :
+        con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
+        cursor = con.cursor()
+        cursor.execute("insert into student(student_ID, student_name, age, textbook) values('"+ student_ID +"', '"+ student_name + "', '"+ age +"', '"+ textbook +"')")
+        cursor.execute("commit")
+        MessageBox.showinfo("Insert Status", "Inserted Succesfully")
+        con.close()
+
+
+
+if __name__ == "__main__" :
     win1 = Tk()
     win1.geometry("600x300")
     win1.title("student register")
@@ -30,30 +52,9 @@ def student_register() :
     e_class_ID = Entry()
     e_class_ID.place(x = 100, y = 150)
 
-    insert = Button(win1, text="insert", font=('italic', 10), bg = 'white', command=insert)
-    insert.place(x = 20, y = 140)
+    insert = Button(win1, text="insert", font=('italic', 10), bg = 'white', command=insert1)
+    insert.place(x = 20, y = 190)
 
     win1.mainloop()
-
-def insert():
-    id = e_id.get()
-    name = e_name.get()
-    phone = e_phone.get()
-
-    if(id=="" or name=="" or phone=="") :
-        MessageBox.showinfo("Insert Status", "All fields are required")
-    else :
-        con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="python_tkinter")
-        cursor = con.cursor()
-        cursor.execute("insert into student values('"+ id +"', '"+ name + "', '"+ phone +"')")
-        cursor.execute("commit")
-        show()
-        MessageBox.showinfo("Insert Status", "Inserted Succesfully")
-        con.close()
-
-
-if __name__ == "__main__" :
-    student_register()
-
 
 
