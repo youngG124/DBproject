@@ -2,16 +2,11 @@ from tkinter import *
 import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 
-
-
-
-
 def insert1():
     student_ID = e_id.get()
     student_name = e_name.get()
     age = e_age.get()
     textbook = e_textbook.get()
-    class_ID = e_class_ID.get()
 
     if(student_ID=="" or student_name=="" or age=="") :
         MessageBox.showinfo("Insert Status", "All fields are required")
@@ -22,8 +17,6 @@ def insert1():
         cursor.execute("commit")
         MessageBox.showinfo("Insert Status", "Inserted Succesfully")
         con.close()
-
-
 
 if __name__ == "__main__" :
     win1 = Tk()
@@ -56,5 +49,3 @@ if __name__ == "__main__" :
     insert.place(x = 20, y = 190)
 
     win1.mainloop()
-
-
