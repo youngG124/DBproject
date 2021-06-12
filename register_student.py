@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
+import tkinter.ttk as ttk
 
 def insert1():
     student_ID = e_id.get()
@@ -42,6 +43,7 @@ def update() :
     student_ID = e_id.get()
     student_name = e_name.get()
     age = e_age.get()
+    # textbook = e_textbook.get()
 
     if(student_ID=="" or student_name=="" or age=="") :
         MessageBox.showinfo("Update Status", "All fields are required")
@@ -81,7 +83,7 @@ def show() :
     list.delete(0, list.size())
 
     for row in rows:
-        insertData = str(row[0]) + '          ' + row[1]
+        insertData = str(row[0]) + '     ' + row[1] + '     ' + str(row[2])
         list.insert(list.size()+1, insertData)
 
     con.close()
@@ -108,8 +110,18 @@ if __name__ == "__main__" :
     e_name.place(x = 100, y = 60)
     e_age = Entry()
     e_age.place(x = 100, y = 90)
-    e_textbook = Entry()
+
+    # 교재 선택하는 리스트 만들기
+    con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
+    cursor = con.cursor()
+    cursor.execute("select bookname from textbook")
+    rows = cursor.fetchall()
+    e_textbook = ttk.Combobox(win1, height = 5, values = rows)
+    e_textbook.pack()
+    e_textbook.set("교재 선택")
     e_textbook.place(x = 100, y = 120)
+
+
     e_class_ID = Entry()
     e_class_ID.place(x = 100, y = 150)
 
