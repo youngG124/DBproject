@@ -7,13 +7,14 @@ def insert1():
     student_ID = e_id.get()
     student_name = e_name.get()
     age = e_age.get()
+    textbook = e_textbook.get()
 
     if(student_ID=="" or student_name=="" or age=="") :
         MessageBox.showinfo("Insert Status", "All fields are required")
     else :
         con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
         cursor = con.cursor()
-        cursor.execute("insert into student(student_ID, student_name, age) values('"+ student_ID +"', '"+ student_name + "', '"+ age +"')")
+        cursor.execute("insert into student(student_id, student_name, age, textbook) values('"+ student_ID +"', '"+ student_name + "', '"+ age +"', '"+ textbook +"')")
         cursor.execute("commit")
 
         e_id.delete(0, 'end')
@@ -81,9 +82,8 @@ def show() :
     cursor.execute("select * from student")
     rows = cursor.fetchall()
     list.delete(0, list.size())
-
     for row in rows:
-        insertData = str(row[0]) + '     ' + row[1] + '     ' + str(row[2])
+        insertData = str(row[0]) + '     ' + row[1] + '     ' + str(row[2]) + '     ' + str(row[3])
         list.insert(list.size()+1, insertData)
 
     con.close()
@@ -115,12 +115,11 @@ if __name__ == "__main__" :
     con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
     cursor = con.cursor()
     cursor.execute("select bookname from textbook")
-    rows = cursor.fetchall()
-    e_textbook = ttk.Combobox(win1, height = 5, values = rows)
+    values = [item[0] for item in cursor.fetchall()] # 이 방법 사용해서 {}를 제외한 교재의 이름만 추출하여 values에 저장
+    e_textbook = ttk.Combobox(win1, height = 5, values = values)
     e_textbook.pack()
     e_textbook.set("교재 선택")
     e_textbook.place(x = 100, y = 120)
-
 
     e_class_ID = Entry()
     e_class_ID.place(x = 100, y = 150)
@@ -137,8 +136,12 @@ if __name__ == "__main__" :
     get = Button(win1, text="get", font=("italic", 10), bg="white", command = get)
     get.place(x = 181, y = 190)
 
-    list = Listbox(win1)
+
+    # 학생정보 리스트박스
+    list = Listbox(win1, width = 40)
+
     list.place(x=290, y = 30)
+    list.winfo_width = 600
     show()
 
     win1.mainloop()
