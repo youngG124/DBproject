@@ -8,13 +8,15 @@ def insert1():
     student_name = e_name.get()
     age = e_age.get()
     textbook = e_textbook.get()
+    class_ID = e_class_ID.get()
+
 
     if(student_ID=="" or student_name=="" or age=="") :
         MessageBox.showinfo("Insert Status", "All fields are required")
     else :
         con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
         cursor = con.cursor()
-        cursor.execute("insert into student(student_id, student_name, age, textbook) values('"+ student_ID +"', '"+ student_name + "', '"+ age +"', '"+ textbook +"')")
+        cursor.execute("insert into student values('"+ student_ID +"', '"+ student_name + "', '"+ age +"', '"+ textbook +"', '"+ class_ID +"')")
         cursor.execute("commit")
 
         e_id.delete(0, 'end')
@@ -93,6 +95,7 @@ if __name__ == "__main__" :
     win1.geometry("600x300")
     win1.title("student register")
 
+    # 라벨
     id = Label(win1, text = "id", font = ('bold', 10))
     id.place(x = 20, y = 30)
     name = Label(win1, text = "name", font = ('bold', 10))
@@ -104,6 +107,7 @@ if __name__ == "__main__" :
     class_ID = Label(win1, text = "class", font = ('bold', 10))
     class_ID.place(x = 20, y = 150)
 
+    # 빈칸
     e_id = Entry()
     e_id.place(x = 100, y = 30)
     e_name = Entry()
@@ -115,15 +119,23 @@ if __name__ == "__main__" :
     con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
     cursor = con.cursor()
     cursor.execute("select bookname from textbook")
-    values = [item[0] for item in cursor.fetchall()] # 이 방법 사용해서 {}를 제외한 교재의 이름만 추출하여 values에 저장
-    e_textbook = ttk.Combobox(win1, height = 5, values = values)
+    # 이 방법 사용해서 {}를 제외한 교재의 이름만 추출하여 values에 저장
+    textbooknames = [item[0] for item in cursor.fetchall()]
+    e_textbook = ttk.Combobox(win1, height = 5, values = textbooknames)
     e_textbook.pack()
     e_textbook.set("교재 선택")
     e_textbook.place(x = 100, y = 120)
 
-    e_class_ID = Entry()
+    # 반 선택하는 리스트 만들기
+    cursor.execute("select class_ID from class")
+    classnumbers = [item[0] for item in cursor.fetchall()]    
+    e_class_ID = ttk.Combobox(win1, height = 5, values = classnumbers)
+    e_class_ID.pack()
+    e_class_ID.set("반 선택")
     e_class_ID.place(x = 100, y = 150)
 
+
+    # 버튼 구현
     insert = Button(win1, text="insert", font=('italic', 10), bg = 'white', command=insert1)
     insert.place(x = 20, y = 190)
 
