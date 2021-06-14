@@ -14,13 +14,13 @@ if __name__ == "__main__" :
     cursor.execute("select teacher_name from teacher")
     # 선생님 이름만 콤보박스에 저장
     teachernames = [item[0] for item in cursor.fetchall()]
-    teacher = ttk.Combobox(atcheckwin, height = 5, values = teachernames)
+    teacher = ttk.Combobox(atcheckwin, width = 15, height = 5, values = teachernames)
     teacher.pack()
     teacher.set("확인 선생님")
     teacher.pack(pady=15)
 
     # 학생들 목록
-    s_list = Listbox(atcheckwin)
+    s_list = Listbox(atcheckwin, width = 15)
     s_list.pack(pady = 15)
     cursor.execute("select student_name from student")
     rows = cursor.fetchall()
@@ -58,10 +58,6 @@ if __name__ == "__main__" :
 
     check_button = Button(atcheckwin, text="check", command = check)
     check_button.pack(pady = 10)
-
-    global my_label
-    my_label = Label(atcheckwin, text='')
-    my_label.pack(pady=5)
 
     con.close()
     atcheckwin.mainloop()

@@ -16,7 +16,8 @@ def insert1():
     else :
         con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
         cursor = con.cursor()
-        cursor.execute("insert into student values('"+ student_ID +"', '"+ student_name + "', '"+ age +"', '"+ textbook +"', '"+ class_ID +"')")
+        cursor.execute("insert into student values \
+            ('"+ student_ID +"', '"+ student_name + "', '"+ age +"', '"+ textbook +"', '"+ class_ID +"')")
         cursor.execute("commit")
 
         e_id.delete(0, 'end')
@@ -116,7 +117,8 @@ if __name__ == "__main__" :
     e_age.place(x = 100, y = 90)
 
     # 교재 선택하는 리스트 만들기
-    con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
+    con = mysql.connect(host="localhost", user="root", \
+         password="sky1575!!", database="english_school")
     cursor = con.cursor()
     cursor.execute("select bookname from textbook")
     # 이 방법 사용해서 {}를 제외한 교재의 이름만 추출하여 values에 저장
@@ -151,7 +153,6 @@ if __name__ == "__main__" :
 
     # 학생정보 리스트박스
     list = Listbox(win1, width = 40)
-
     list.place(x=290, y = 30)
     list.winfo_width = 600
     show()
