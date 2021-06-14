@@ -3,7 +3,7 @@ import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 import tkinter.ttk as ttk
 
-def insert1():
+def insert():
     student_ID = e_id.get()
     student_name = e_name.get()
     age = e_age.get()
@@ -138,7 +138,7 @@ if __name__ == "__main__" :
 
 
     # 버튼 구현
-    insert = Button(win1, text="insert", font=('italic', 10), bg = 'white', command=insert1)
+    insert = Button(win1, text="insert", font=('italic', 10), bg = 'white', command=insert)
     insert.place(x = 20, y = 190)
 
     delete = Button(win1, text="delete", font=("italic", 10), bg="white", command=delete)
