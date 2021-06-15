@@ -43,7 +43,6 @@ def delete() :
     # 리스트에서 이름만 가져오기
     a = str(list.get(ANCHOR))
     delete_name = a[0] + a[1] + a[2]
-    print(delete_name)
 
     # 리스트에서 가져온 학생 이름으로 아이디 가져오기
     con = mysql.connect(host="localhost", user="root", \
@@ -54,8 +53,6 @@ def delete() :
     delete_id = [item[0] for item in cursor.fetchall()]
     delete_id2 = str(delete_id[0])
 
-    print(delete_id2)
-
     # 가져온 아이디 사용해서 삭제
     cursor.execute("delete from attendance \
         where student_ID = '" + delete_id2 + "'\
@@ -63,8 +60,7 @@ def delete() :
     cursor.execute("commit")
     show_today()
     MessageBox.showinfo("Delete Status", "Deleted Succesfully")
-    con.close()
-    
+    con.close()    
 
 if __name__ == "__main__" :
     attlist = Tk()
@@ -72,8 +68,7 @@ if __name__ == "__main__" :
     attlist.title("attendance list(today)")
 
     # 학생 이름 불러오기
-    con = mysql.connect(host="localhost", user="root", \
-         password="sky1575!!", database="english_school")
+    con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
     cursor = con.cursor()
     cursor.execute("select student_name from student")
     students = [item[0] for item in cursor.fetchall()]
@@ -87,6 +82,9 @@ if __name__ == "__main__" :
     # 삭제 버튼
     delete = Button(attlist, text="삭제", font=('italic', 10), bg = 'white', command = delete)
     delete.place(x = 242.5, y = 20)
+    # 오늘 출석체크 확인 버튼
+    today = Button(attlist, text="오늘", font=('italic', 10), bg = 'white', command = show_today)
+    today.place(x = 30, y = 70)
 
 
     list = Listbox(attlist, width = 35)
