@@ -17,7 +17,8 @@ def insert():
         con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
         cursor = con.cursor()
         cursor.execute("insert into student values \
-            ('"+ student_ID +"', '"+ student_name + "', '"+ age +"', '"+ textbook +"', '"+ class_ID +"')")
+            ('"+ student_ID +"', '"+ student_name + "', \
+                '"+ age +"', '"+ textbook +"', '"+ class_ID +"')")
         cursor.execute("commit")
 
         e_id.delete(0, 'end')
@@ -33,7 +34,8 @@ def delete() :
     else :
         con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
         cursor = con.cursor()
-        cursor.execute("delete from student where student_ID ='"+ e_id.get() +"'")
+        cursor.execute("delete from student \
+            where student_ID ='"+ e_id.get() +"'")
         cursor.execute("commit")
 
         e_id.delete(0, 'end')
@@ -54,7 +56,9 @@ def update() :
     else :
         con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
         cursor = con.cursor()
-        cursor.execute("update student set student_name = '"+ student_name +"', age = '"+ age +"' where student_ID = '"+ student_ID +"'")
+        cursor.execute("update student set student_name = \
+            '"+ student_name +"', age = '"+ age +"' \
+                where student_ID = '"+ student_ID +"'")
         cursor.execute("commit")
 
         e_id.delete(0, 'end')
@@ -71,7 +75,8 @@ def get() :
     else :
         con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
         cursor = con.cursor()
-        cursor.execute("select * from student where student_ID ='"+ e_id.get() +"'")
+        cursor.execute("select * from student \
+            where student_ID ='"+ e_id.get() +"'")
         rows = cursor.fetchall()
 
         for row in rows:
