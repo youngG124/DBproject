@@ -16,7 +16,7 @@ def show_student() :
 
 if __name__ == "__main__" :
     attCheckWin = Tk()
-    attCheckWin.geometry("300x330")
+    attCheckWin.geometry("300x400")
     attCheckWin.title("attendance check")
 
     # 출석 체크하는 선생님 선택하는 리스트 만들기
@@ -52,7 +52,7 @@ if __name__ == "__main__" :
 
     # 출석체크 버튼
     def check() :
-        if(teacher.get()=="" or s_list.get(ANCHOR)=="" or temperature.get()=="") :
+        if(teacher.get()=="확인 선생님" or s_list.get(ANCHOR)=="" or temperature.get()=="") :
             MessageBox.showinfo("Insert Status", "All fields are required")
         else :
             con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")

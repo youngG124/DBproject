@@ -28,7 +28,6 @@ def insert():
         show()
         MessageBox.showinfo("Insert Status", "Inserted Succesfully")
         con.close()
-    at.main()
 
 def delete() :
     if(e_id.get() == ""):

@@ -4,6 +4,7 @@ import mysql.connector as mysql
 import tkinter.ttk as ttk
 
 def show_today() :
+    comboinsert()
     con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
     cursor = con.cursor()
     cursor.execute("select s.student_name, p.pay_time, p.pay_amount \
@@ -58,12 +59,23 @@ def delete() :
     cursor.execute("commit")
     show_today()
     MessageBox.showinfo("Delete Status", "Deleted Succesfully")
-    con.close()    
+    con.close()
+
+def comboinsert() :
+    # 학생 이름 불러오기
+    con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
+    cursor = con.cursor()
+    cursor.execute("select student_name from student")
+    students = [item[0] for item in cursor.fetchall()]
+    # 불러온 이름 콤보박스에 넣기
+    student_combo = ttk.Combobox(pay_list, height = 5, values = students)
+    student_combo.place(x = 30, y = 20)
+    student_combo.set("학생 선택")
 
 if __name__ == "__main__" :
     pay_list = Tk()
     pay_list.geometry("315x300")
-    pay_list.title("payment list(today)")
+    pay_list.title("payment list")
 
     # 학생 이름 불러오기
     con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")

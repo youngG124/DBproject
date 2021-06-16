@@ -4,9 +4,10 @@ import mysql.connector as mysql
 import tkinter.ttk as ttk
 
 def show_today() :
+    comboinsert()
     con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
     cursor = con.cursor()
-    cursor.execute("select s.student_name, a.a_time, t.teacher_name \
+    cursor.execute("select s.student_name, a.a_time, a.temperature, t.teacher_name \
         from student s, attendance a, teacher t \
             where s.student_id = a.student_id \
                 and t.teacher_id = a.check_teacher \
@@ -15,7 +16,7 @@ def show_today() :
     rows = cursor.fetchall()
     list.delete(0, list.size())
     for row in rows :
-        insertData = str(row[0]) + '    ' + str(row[1]) + '    ' + row[2]
+        insertData = str(row[0]) + '    ' + str(row[1]) + '    ' + str(row[2])+ '    ' + row[3]
         list.insert(list.size()+1, insertData)
 
     con.close()
@@ -60,12 +61,23 @@ def delete() :
     cursor.execute("commit")
     show_today()
     MessageBox.showinfo("Delete Status", "Deleted Succesfully")
-    con.close()    
+    con.close()
+
+def comboinsert() :
+    # 학생 이름 불러오기
+    con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
+    cursor = con.cursor()
+    cursor.execute("select student_name from student")
+    students = [item[0] for item in cursor.fetchall()]
+    # 불러온 이름 콤보박스에 넣기
+    student_combo = ttk.Combobox(attlist, height = 5, values = students)
+    student_combo.place(x = 30, y = 20)
+    student_combo.set("학생 선택")
 
 if __name__ == "__main__" :
     attlist = Tk()
-    attlist.geometry("315x300")
-    attlist.title("attendance list(today)")
+    attlist.geometry("340x300")
+    attlist.title("attendance list")
 
     # 학생 이름 불러오기
     con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
@@ -87,7 +99,7 @@ if __name__ == "__main__" :
     today.place(x = 30, y = 70)
 
 
-    list = Listbox(attlist, width = 35)
+    list = Listbox(attlist, width = 40)
     list.place(x = 30, y = 90)
 
     show_today()
