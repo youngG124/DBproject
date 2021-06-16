@@ -3,9 +3,20 @@ import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 import tkinter.ttk as ttk
 
+def show_student() :
+    con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
+    cursor = con.cursor()
+    cursor.execute("select student_name from student")
+    rows = cursor.fetchall()
+    s_list.delete(0, s_list.size())
+    for row in rows:
+        insertData = str(row[0])
+        s_list.insert(s_list.size()+1, insertData)
+    con.close()
+
 if __name__ == "__main__" :
     attCheckWin = Tk()
-    attCheckWin.geometry("300x400")
+    attCheckWin.geometry("300x330")
     attCheckWin.title("attendance check")
 
     # 출석 체크하는 선생님 선택하는 리스트 만들기
@@ -22,12 +33,9 @@ if __name__ == "__main__" :
     # 학생들 목록
     s_list = Listbox(attCheckWin, width = 15)
     s_list.pack(pady = 5)
-    cursor.execute("select student_name from student")
-    rows = cursor.fetchall()
-    s_list.delete(0, s_list.size())
-    for row in rows:
-        insertData = str(row[0])
-        s_list.insert(s_list.size()+1, insertData)
+
+    show_student()
+    
 
     t_label = Label(attCheckWin, text = "체온", font = ('bold', 10))
     t_label.pack(pady=5)
@@ -38,7 +46,7 @@ if __name__ == "__main__" :
         t_values.append(round(t_values[i] + 0.1, 1))
     temperature = ttk.Combobox(attCheckWin, width = 11, height = 5, values = t_values)
     temperature.pack()
-    teacher.set("36.5")
+    temperature.set("36.5")
     temperature.pack(pady = 5)
 
 
@@ -74,6 +82,9 @@ if __name__ == "__main__" :
 
     check_button = Button(attCheckWin, text="check", command = check)
     check_button.pack(pady = 10)
+
+    refresh = Button(attCheckWin, text="refresh", command = show_student)
+    refresh.pack(pady = 10)
 
     con.close()
     attCheckWin.mainloop()
