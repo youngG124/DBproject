@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter.messagebox as MessageBox
 import mysql.connector as mysql
 import tkinter.ttk as ttk
+import attendance as at
 
 def insert():
     student_ID = e_id.get()
@@ -27,6 +28,7 @@ def insert():
         show()
         MessageBox.showinfo("Insert Status", "Inserted Succesfully")
         con.close()
+    at.main()
 
 def delete() :
     if(e_id.get() == ""):
@@ -49,7 +51,8 @@ def update() :
     student_ID = e_id.get()
     student_name = e_name.get()
     age = e_age.get()
-    # textbook = e_textbook.get()
+    textbook = e_textbook.get()
+    class_ID = e_class_ID.get()
 
     if(student_ID=="" or student_name=="" or age=="") :
         MessageBox.showinfo("Update Status", "All fields are required")
@@ -57,7 +60,8 @@ def update() :
         con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
         cursor = con.cursor()
         cursor.execute("update student set student_name = \
-            '"+ student_name +"', age = '"+ age +"' \
+            '"+ student_name +"', age = '"+ age +"',\
+                textbook = '"+ textbook +"', class_ID = '"+ class_ID + "'\
                 where student_ID = '"+ student_ID +"'")
         cursor.execute("commit")
 
