@@ -4,7 +4,6 @@ import mysql.connector as mysql
 import tkinter.ttk as ttk
 
 def show_today() :
-    comboinsert()
     con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
     cursor = con.cursor()
     cursor.execute("select s.student_name, a.a_time, a.temperature, t.teacher_name \
@@ -23,7 +22,7 @@ def show_today() :
 
 def search() :
     student_name = student_combo.get()
-
+    print(student_name)
     con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
     cursor = con.cursor()
     cursor.execute("select s.student_name, a.a_time, t.teacher_name \
@@ -63,17 +62,6 @@ def delete() :
     MessageBox.showinfo("Delete Status", "Deleted Succesfully")
     con.close()
 
-def comboinsert() :
-    # 학생 이름 불러오기
-    con = mysql.connect(host="localhost", user="root", password="sky1575!!", database="english_school")
-    cursor = con.cursor()
-    cursor.execute("select student_name from student")
-    students = [item[0] for item in cursor.fetchall()]
-    # 불러온 이름 콤보박스에 넣기
-    student_combo = ttk.Combobox(attlist, height = 5, values = students)
-    student_combo.place(x = 30, y = 20)
-    student_combo.set("학생 선택")
-
 if __name__ == "__main__" :
     attlist = Tk()
     attlist.geometry("340x300")
@@ -86,8 +74,9 @@ if __name__ == "__main__" :
     students = [item[0] for item in cursor.fetchall()]
     # 불러온 이름 콤보박스에 넣기
     student_combo = ttk.Combobox(attlist, height = 5, values = students)
-    student_combo.place(x = 30, y = 20)
     student_combo.set("학생 선택")
+    student_combo.pack()
+    student_combo.place(x = 30, y = 20)
     # 검색 버튼
     search = Button(attlist, text="검색", font=('italic', 10), bg = 'white', command = search)
     search.place(x = 200, y = 20)
